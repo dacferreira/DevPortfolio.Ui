@@ -1,0 +1,84 @@
+<app-auth-layout
+  titulo="Bem-vindo de volta,"
+  destaque="Diogo!"
+  texto="Acesse sua conta e continue explorando seus projetos, experiências e aprendizados.">
+  <h1 class="titulo">Entrar na sua conta</h1>
+  <p class="subtitulo">Faça login para acessar seu portfólio e continuar sua jornada.</p>
+
+  <form class="formulario" [formGroup]="form" (ngSubmit)="entrar()" novalidate>
+    <div class="campo">
+      <label class="visualmente-oculto" for="email">E-mail</label>
+      <div class="campo__controle" [class.campo__controle--invalido]="campoInvalido('email')">
+        <svg class="campo__icone" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3 7 9 6 9-6" />
+        </svg>
+        <input id="email" type="email" formControlName="email" placeholder="E-mail" autocomplete="email"
+          [attr.aria-invalid]="campoInvalido('email')" aria-describedby="email-erro" />
+        <svg class="campo__icone" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21a8 8 0 0 1 16 0" />
+        </svg>
+      </div>
+      @if (campoInvalido('email')) {
+        <small id="email-erro" class="campo__erro">
+          {{ form.controls.email.hasError('required') ? 'Informe seu e-mail.' : 'Informe um e-mail válido.' }}
+        </small>
+      }
+    </div>
+
+    <div class="campo">
+      <label class="visualmente-oculto" for="senha">Senha</label>
+      <div class="campo__controle" [class.campo__controle--invalido]="campoInvalido('senha')">
+        <svg class="campo__icone" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="4" y="11" width="16" height="10" rx="2" />
+          <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+        </svg>
+        <input id="senha" [type]="mostrarSenha() ? 'text' : 'password'" formControlName="senha"
+          placeholder="Senha" autocomplete="current-password"
+          [attr.aria-invalid]="campoInvalido('senha')" aria-describedby="senha-erro" />
+        <button type="button" class="campo__acao" (click)="alternarSenha()"
+          [attr.aria-label]="mostrarSenha() ? 'Ocultar senha' : 'Mostrar senha'" [attr.aria-pressed]="mostrarSenha()">
+          <svg class="campo__icone" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
+            <circle cx="12" cy="12" r="3" />
+            @if (mostrarSenha()) {
+              <path d="m3 3 18 18" />
+            }
+          </svg>
+        </button>
+      </div>
+      @if (campoInvalido('senha')) {
+        <small id="senha-erro" class="campo__erro">Informe sua senha.</small>
+      }
+    </div>
+
+    <div class="opcoes">
+      <label class="lembrar">
+        <input type="checkbox" formControlName="lembrar" />
+        Lembrar de mim
+      </label>
+      <a class="link link--roxo" routerLink="/esqueci-senha">Esqueci minha senha</a>
+    </div>
+
+    @if (erro(); as mensagem) {
+      <p class="alerta" role="alert">{{ mensagem }}</p>
+    }
+
+    <button type="submit" class="botao" [disabled]="enviando()" [attr.aria-busy]="enviando()">
+      <svg class="botao__icone" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+        <path d="m10 17 5-5-5-5" />
+        <path d="M15 12H3" />
+      </svg>
+      {{ enviando() ? 'Entrando...' : 'Entrar' }}
+    </button>
+  </form>
+
+  <div class="divisor"><span>ou</span></div>
+
+  <p class="rodape">
+    Ainda não tem uma conta?
+    <a class="link link--seta" routerLink="/cadastro">Criar conta &rarr;</a>
+  </p>
+</app-auth-layout>

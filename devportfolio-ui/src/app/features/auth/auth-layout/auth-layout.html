@@ -1,0 +1,27 @@
+<main class="pagina">
+  <section class="card">
+    <div class="apresentacao">
+      <app-auth-ilustracao class="apresentacao__ilustracao" />
+      <h2 class="apresentacao__titulo">
+        {{ titulo() }}
+        @if (destaque(); as destaque) {
+          <br /><span class="destaque">{{ destaque }}</span>
+        }
+      </h2>
+      <p class="apresentacao__texto">{{ texto() }}</p>
+      <span class="apresentacao__traco"></span>
+    </div>
+
+    <div class="acesso">
+      <a class="logo" routerLink="/" aria-label="Diogo.dev - início">
+        <svg class="logo__simbolo" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 2 36 11v18L20 38 4 29V11Z" />
+          <path d="m15 15-5 5 5 5M25 15l5 5-5 5M22 13l-4 14" />
+        </svg>
+        <span>Diogo<span class="destaque">.dev</span></span>
+      </a>
+
+      <ng-content />
+    </div>
+  </section>
+</main>

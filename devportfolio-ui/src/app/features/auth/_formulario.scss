@@ -1,0 +1,166 @@
+// Estilos compartilhados pelos formulários das telas de autenticação.
+
+.titulo {
+  margin: 0 0 0.5rem;
+  font-size: 1.625rem;
+}
+
+.subtitulo {
+  margin: 0 0 2rem;
+  color: var(--cor-texto-suave);
+}
+
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.formulario {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.campo {
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+
+  &__controle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 1rem;
+    border: 1px solid var(--cor-borda);
+    border-radius: 12px;
+    background: var(--cor-superficie-2);
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus-within {
+      border-color: var(--cor-azul);
+      box-shadow: 0 0 0 3px rgb(59 130 246 / 25%);
+    }
+
+    &--invalido {
+      border-color: var(--cor-erro);
+    }
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.875rem 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--cor-texto);
+  }
+
+  &__icone {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: var(--cor-texto-suave);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &__acao {
+    display: flex;
+    padding: 0.25rem;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  &__erro {
+    color: var(--cor-erro);
+  }
+}
+
+.link {
+  color: var(--cor-azul-claro);
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &--roxo {
+    color: var(--cor-roxo-claro);
+  }
+
+  &--seta {
+    display: block;
+    margin-top: 0.5rem;
+  }
+}
+
+.alerta {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: rgb(248 113 113 / 12%);
+  color: var(--cor-erro);
+  font-size: 0.875rem;
+
+  &--info {
+    background: rgb(96 165 250 / 12%);
+    color: var(--cor-azul-claro);
+  }
+}
+
+.botao {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.95rem;
+  border: 0;
+  border-radius: 12px;
+  background: var(--gradiente-primario);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgb(59 130 246 / 35%);
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: wait;
+  }
+
+  &__icone {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+}
+
+.divisor {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.75rem 0;
+  color: var(--cor-texto-suave);
+  font-size: 0.875rem;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--cor-borda);
+  }
+}
+
+.rodape {
+  margin: 0;
+  color: var(--cor-texto-suave);
+}

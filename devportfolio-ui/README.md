@@ -1,59 +1,51 @@
-# DevportfolioUi
+# DevPortfolio.Ui
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.1.
+Front-end do DevPortfolio em Angular 22 (standalone, SCSS, Vitest).
 
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
+```
+src/app/
+├── core/       serviços globais (AuthService, guards, interceptor, envelope da API)
+├── shared/     componentes reutilizáveis
+├── features/   telas (auth/login, auth/esqueci-senha, home, admin)
+└── layout/     estrutura de página
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Rotas
 
-## Code scaffolding
+| Rota | Finalidade | Proteção |
+|---|---|---|
+| `/` | Página inicial pública | — |
+| `/login` | Autenticação | `visitanteGuard` (usuário logado vai para `/admin`) |
+| `/esqueci-senha` | Recuperação de acesso | — |
+| `/admin` | Área restrita | `authGuard` |
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+O `authGuard` controla apenas a navegação. A segurança dos dados fica na API, que valida a sessão em cada endpoint.
 
-```bash
-ng generate component component-name
-```
+## Autenticação
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- A sessão fica num cookie HttpOnly emitido pela API. O front não lê nem guarda tokens (nada em `localStorage`).
+- Antes do login o `AuthService` chama `GET /api/auth/csrf`. O `HttpClient` envia o cookie `XSRF-TOKEN`
+  no header `X-XSRF-TOKEN` em todo POST/PUT/PATCH/DELETE.
+- Se um endpoint protegido responder 401, o `sessaoExpiradaInterceptor` encerra a sessão local e volta ao login.
 
-```bash
-ng generate --help
-```
+## Ambiente
 
-## Building
+| Arquivo | `apiUrl` |
+|---|---|
+| `src/environments/environment.ts` (produção) | `/api` |
+| `src/environments/environment.development.ts` | `/api`, encaminhado pelo `proxy.conf.json` para `http://localhost:5128` |
 
-To build the project run:
+Front e API precisam estar na mesma origem (os cookies são SameSite=Strict e o token CSRF só é enviado em URLs relativas).
+Em produção, sirva os dois no mesmo domínio.
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+## Comandos
 
 ```bash
-ng e2e
+npm start                                  # ng serve com proxy para a API
+npm test                                   # testes (Vitest) em modo watch
+npm run test:ci                            # testes uma vez, com cobertura (pasta coverage/)
+npm run lint                               # ESLint (angular-eslint)
+npx ng build --configuration production    # mesmo build do pipeline
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+O pipeline (`.github/workflows/ci.yml`) roda lint, testes com cobertura e o build de produção.

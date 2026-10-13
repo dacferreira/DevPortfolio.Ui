@@ -1,0 +1,28 @@
+.admin {
+  min-height: 100dvh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1rem;
+  padding: 2rem 1rem;
+  text-align: center;
+
+  h1 {
+    margin: 0;
+  }
+
+  &__texto {
+    margin: 0;
+    color: var(--cor-texto-suave);
+  }
+
+  &__sair {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--cor-borda);
+    border-radius: 12px;
+    background: var(--cor-superficie-2);
+    color: var(--cor-texto);
+    font-weight: 600;
+    cursor: pointer;
+  }
+}

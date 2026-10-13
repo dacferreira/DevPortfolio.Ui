@@ -1,0 +1,115 @@
+.pagina {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(circle at 15% 20%, rgb(59 130 246 / 22%), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgb(139 92 246 / 22%), transparent 40%),
+    var(--cor-fundo);
+}
+
+// Borda neon em gradiente azul → roxo
+.card {
+  width: min(100%, 1040px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1.5px solid transparent;
+  border-radius: 24px;
+  background:
+    linear-gradient(160deg, #0a1233, #070d24) padding-box,
+    linear-gradient(135deg, var(--cor-azul), var(--cor-roxo)) border-box;
+  box-shadow: 0 0 40px rgb(59 130 246 / 25%), 0 0 80px rgb(139 92 246 / 18%);
+}
+
+.apresentacao {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+
+  &__ilustracao {
+    margin-bottom: 1rem;
+  }
+
+  &__titulo {
+    margin: 0;
+    font-size: 1.75rem;
+    line-height: 1.25;
+  }
+
+  &__texto {
+    margin: 0;
+    color: var(--cor-texto-suave);
+    line-height: 1.6;
+  }
+
+  &__traco {
+    width: 56px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--cor-roxo);
+    box-shadow: 0 0 12px var(--cor-roxo);
+  }
+}
+
+.destaque {
+  color: var(--cor-azul-claro);
+}
+
+.acesso {
+  padding: 2.5rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 18px;
+  background: rgb(11 20 48 / 70%);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  color: var(--cor-texto);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+
+  &__simbolo {
+    width: 40px;
+    height: 40px;
+    fill: rgb(59 130 246 / 15%);
+    stroke: var(--cor-azul-claro);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 6px rgb(59 130 246 / 60%));
+  }
+}
+
+@media (max-width: 860px) {
+  .card {
+    grid-template-columns: 1fr;
+  }
+
+  .apresentacao {
+    text-align: center;
+    align-items: center;
+
+    &__ilustracao {
+      width: min(100%, 320px);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem;
+  }
+
+  .acesso {
+    padding: 1.75rem 1.25rem;
+  }
+}

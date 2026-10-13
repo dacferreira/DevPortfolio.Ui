@@ -1,0 +1,46 @@
+<app-auth-layout
+  titulo="Não se preocupe!"
+  texto="Informe seu e-mail e enviaremos um link para você redefinir sua senha e voltar a acessar sua conta.">
+  <h1 class="titulo">Esqueci minha senha</h1>
+  <p class="subtitulo">Digite o e-mail da sua conta e enviaremos um link de recuperação.</p>
+
+  <form class="formulario" [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+    <div class="campo">
+      <label class="visualmente-oculto" for="email">E-mail</label>
+      <div class="campo__controle" [class.campo__controle--invalido]="emailInvalido()">
+        <svg class="campo__icone" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3 7 9 6 9-6" />
+        </svg>
+        <input id="email" type="email" formControlName="email" placeholder="E-mail" autocomplete="email"
+          [attr.aria-invalid]="emailInvalido()" aria-describedby="email-erro" />
+      </div>
+      @if (emailInvalido()) {
+        <small id="email-erro" class="campo__erro">
+          {{ form.controls.email.hasError('required') ? 'Informe seu e-mail.' : 'Informe um e-mail válido.' }}
+        </small>
+      }
+    </div>
+
+    @if (solicitado()) {
+      <p class="alerta alerta--info" role="status">
+        A recuperação de senha por e-mail ainda não está disponível. Entre em contato com o administrador.
+      </p>
+    }
+
+    <button type="submit" class="botao">
+      <svg class="botao__icone" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m22 2-7 20-4-9-9-4Z" />
+        <path d="M22 2 11 13" />
+      </svg>
+      Enviar link de recuperação
+    </button>
+  </form>
+
+  <div class="divisor"><span>ou</span></div>
+
+  <p class="rodape">
+    Lembrou sua senha?
+    <a class="link link--roxo link--seta" routerLink="/login">Fazer login &rarr;</a>
+  </p>
+</app-auth-layout>

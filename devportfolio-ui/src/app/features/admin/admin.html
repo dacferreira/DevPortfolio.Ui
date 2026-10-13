@@ -1,0 +1,7 @@
+<main class="admin">
+  <h1>Área restrita</h1>
+  <p class="admin__texto">Olá, {{ usuario()?.nome }}! Você está autenticado como {{ usuario()?.email }}.</p>
+  <button type="button" class="admin__sair" (click)="sair()" [disabled]="saindo()">
+    {{ saindo() ? 'Saindo...' : 'Sair' }}
+  </button>
+</main>

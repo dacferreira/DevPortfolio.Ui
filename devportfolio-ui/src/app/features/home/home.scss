@@ -1,0 +1,35 @@
+.home {
+  min-height: 100dvh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1rem;
+  padding: 2rem 1rem;
+  text-align: center;
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+  }
+
+  &__logo {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    span {
+      color: var(--cor-azul-claro);
+    }
+  }
+
+  &__texto {
+    margin: 0;
+    color: var(--cor-texto-suave);
+  }
+
+  &__link {
+    color: var(--cor-azul-claro);
+    font-weight: 600;
+    text-decoration: none;
+  }
+}
