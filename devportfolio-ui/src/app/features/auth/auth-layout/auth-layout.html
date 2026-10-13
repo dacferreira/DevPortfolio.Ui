@@ -5,7 +5,7 @@
       <h2 class="apresentacao__titulo">
         {{ titulo() }}
         @if (destaque(); as destaque) {
-          <br /><span class="destaque">{{ destaque }}</span>
+          <br />{{ antesDoDestaque() }}<span class="destaque">{{ destaque }}</span>
         }
       </h2>
       <p class="apresentacao__texto">{{ texto() }}</p>

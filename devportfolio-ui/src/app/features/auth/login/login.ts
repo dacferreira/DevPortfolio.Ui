@@ -3,11 +3,15 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
+import { UsuarioAutenticado, ehAdministrador } from '../../../core/auth/auth.models';
 import { AuthService } from '../../../core/auth/auth.service';
 import { mensagemDeErro } from '../../../core/http/api-resposta';
 import { AuthLayout } from '../auth-layout/auth-layout';
 
-const ROTA_APOS_LOGIN = '/admin';
+const AVISOS: Record<string, string> = {
+  cadastro: 'Conta criada! Enviamos um e-mail de boas-vindas. Faça login para continuar.',
+  senha: 'Senha redefinida! Entre com a nova senha.',
+};
 
 @Component({
   selector: 'app-login',
@@ -31,6 +35,9 @@ export class Login {
   protected readonly enviando = signal(false);
   protected readonly erro = signal<string | null>(null);
 
+  // Aviso vindo do cadastro (?cadastro=ok) ou da redefinição de senha (?senha=redefinida).
+  protected readonly aviso = signal(this.avisoDaUrl());
+
   protected alternarSenha(): void {
     this.mostrarSenha.update((valor) => !valor);
   }
@@ -53,21 +60,32 @@ export class Login {
 
     const { email, senha, lembrar } = this.form.getRawValue();
     this.erro.set(null);
+    this.aviso.set(null);
     this.enviando.set(true);
 
     this.authService
       .login({ email, senha, lembrarDeMim: lembrar })
       .pipe(finalize(() => this.enviando.set(false)))
       .subscribe({
-        next: () => this.router.navigateByUrl(this.destinoAposLogin()),
+        next: (usuario) => this.router.navigateByUrl(this.destinoAposLogin(usuario)),
         error: (erro: HttpErrorResponse) => this.erro.set(this.mensagemDeErro(erro)),
       });
   }
 
+  private avisoDaUrl(): string | null {
+    const parametros = this.route.snapshot.queryParamMap;
+    const chave = Object.keys(AVISOS).find((nome) => parametros.has(nome));
+    return chave ? AVISOS[chave] : null;
+  }
+
   // Aceita apenas caminhos internos, para não permitir redirecionamento para outro site.
-  private destinoAposLogin(): string {
+  // Sem returnUrl, o administrador vai para a área restrita e o visitante para a página inicial.
+  private destinoAposLogin(usuario: UsuarioAutenticado): string {
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-    return returnUrl?.startsWith('/') && !returnUrl.startsWith('//') ? returnUrl : ROTA_APOS_LOGIN;
+    if (returnUrl?.startsWith('/') && !returnUrl.startsWith('//')) {
+      return returnUrl;
+    }
+    return ehAdministrador(usuario) ? '/admin' : '/';
   }
 
   private mensagemDeErro(erro: HttpErrorResponse): string {

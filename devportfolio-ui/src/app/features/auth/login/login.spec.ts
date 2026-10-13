@@ -185,6 +185,28 @@ describe('Login', () => {
     expect(navegar).toHaveBeenCalledWith('/admin');
   });
 
+  it('deve levar o visitante para a página inicial após o login', async () => {
+    await montar();
+    authService.login.mockReturnValue(of({ ...USUARIO, perfil: 'Visitante' }));
+    preencherCredenciaisValidas();
+
+    await enviar();
+
+    expect(navegar).toHaveBeenCalledWith('/');
+  });
+
+  it('deve exibir aviso de conta criada', async () => {
+    await montar('/?cadastro=ok');
+
+    expect(elemento.querySelector('[role=status]')?.textContent).toContain('Conta criada!');
+  });
+
+  it('deve exibir aviso de senha redefinida', async () => {
+    await montar('/?senha=redefinida');
+
+    expect(elemento.querySelector('[role=status]')?.textContent).toContain('Senha redefinida!');
+  });
+
   it('deve redirecionar para a página solicitada antes do login', async () => {
     await montar('/?returnUrl=%2Fadmin%2Fperfil');
     authService.login.mockReturnValue(of(USUARIO));

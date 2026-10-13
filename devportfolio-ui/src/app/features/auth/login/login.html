@@ -61,6 +61,10 @@
       <a class="link link--roxo" routerLink="/esqueci-senha">Esqueci minha senha</a>
     </div>
 
+    @if (aviso(); as mensagem) {
+      <p class="alerta alerta--info" role="status">{{ mensagem }}</p>
+    }
+
     @if (erro(); as mensagem) {
       <p class="alerta" role="alert">{{ mensagem }}</p>
     }

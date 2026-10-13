@@ -2,8 +2,12 @@
   <p class="home__logo">&lt;/&gt; Diogo<span>.dev</span></p>
   <h1>Portfólio em construção</h1>
   <p class="home__texto">Em breve: projetos, experiências e aprendizados.</p>
-  @if (autenticado()) {
-    <a class="home__link" routerLink="/admin">Ir para a área restrita &rarr;</a>
+  @if (usuario(); as usuario) {
+    <p class="home__texto">Olá, {{ usuario.nome }}!</p>
+    @if (administrador()) {
+      <a class="home__link" routerLink="/admin">Ir para a área restrita &rarr;</a>
+    }
+    <button type="button" class="home__sair" (click)="sair()">Sair</button>
   } @else {
     <a class="home__link" routerLink="/login">Entrar &rarr;</a>
   }

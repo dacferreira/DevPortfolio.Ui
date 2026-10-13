@@ -15,11 +15,13 @@ src/app/
 | Rota | Finalidade | Proteção |
 |---|---|---|
 | `/` | Página inicial pública | — |
-| `/login` | Autenticação | `visitanteGuard` (usuário logado vai para `/admin`) |
+| `/login` | Autenticação | `visitanteGuard` (usuário logado vai para `/admin` ou `/`, conforme o perfil) |
 | `/esqueci-senha` | Recuperação de acesso | — |
-| `/admin` | Área restrita | `authGuard` |
+| `/redefinir-senha` | Nova senha (link do e-mail, `?token=`) | — |
+| `/cadastro` | Criar conta (perfil Visitante) | `visitanteGuard` |
+| `/admin` | Área restrita | `adminGuard` (somente perfil Administrador) |
 
-O `authGuard` controla apenas a navegação. A segurança dos dados fica na API, que valida a sessão em cada endpoint.
+Os guards controlam apenas a navegação. A segurança dos dados fica na API, que valida a sessão em cada endpoint.
 
 ## Autenticação
 

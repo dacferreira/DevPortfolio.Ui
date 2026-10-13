@@ -1,0 +1,134 @@
+<app-auth-layout
+  titulo="Junte-se à"
+  antesDoDestaque="comunidade "
+  destaque="Diogo.dev"
+  texto="Crie sua conta e tenha acesso aos meus projetos, estudos, tecnologias e muito mais.">
+  <h1 class="titulo">Criar conta</h1>
+  <p class="subtitulo">Preencha os dados abaixo para começar sua jornada.</p>
+
+  <form class="formulario" [formGroup]="form" (ngSubmit)="criarConta()" novalidate>
+    <div class="campo">
+      <label class="visualmente-oculto" for="nome">Nome</label>
+      <div class="campo__controle" [class.campo__controle--invalido]="campoInvalido('nome')">
+        <svg class="campo__icone" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21a8 8 0 0 1 16 0" />
+        </svg>
+        <input id="nome" type="text" formControlName="nome" placeholder="Nome" autocomplete="name"
+          [attr.aria-invalid]="campoInvalido('nome')" aria-describedby="nome-erro" />
+      </div>
+      @if (campoInvalido('nome')) {
+        <small id="nome-erro" class="campo__erro">
+          {{ form.controls.nome.hasError('required') ? 'Informe seu nome.' : 'Informe um nome com 2 a 100 caracteres.' }}
+        </small>
+      }
+    </div>
+
+    <div class="campo">
+      <label class="visualmente-oculto" for="email">E-mail</label>
+      <div class="campo__controle" [class.campo__controle--invalido]="campoInvalido('email')">
+        <svg class="campo__icone" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3 7 9 6 9-6" />
+        </svg>
+        <input id="email" type="email" formControlName="email" placeholder="E-mail" autocomplete="email"
+          [attr.aria-invalid]="campoInvalido('email')" aria-describedby="email-erro" />
+      </div>
+      @if (campoInvalido('email')) {
+        <small id="email-erro" class="campo__erro">
+          {{ form.controls.email.hasError('required') ? 'Informe seu e-mail.' : 'Informe um e-mail válido.' }}
+        </small>
+      }
+    </div>
+
+    <div class="campo">
+      <label class="visualmente-oculto" for="senha">Senha</label>
+      <div class="campo__controle" [class.campo__controle--invalido]="campoInvalido('senha')">
+        <svg class="campo__icone" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="4" y="11" width="16" height="10" rx="2" />
+          <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+        </svg>
+        <input id="senha" [type]="mostrarSenha() ? 'text' : 'password'" formControlName="senha" placeholder="Senha"
+          autocomplete="new-password" [attr.aria-invalid]="campoInvalido('senha')" aria-describedby="senha-erro" />
+        <button type="button" class="campo__acao" (click)="mostrarSenha.set(!mostrarSenha())"
+          [attr.aria-label]="mostrarSenha() ? 'Ocultar senha' : 'Mostrar senha'" [attr.aria-pressed]="mostrarSenha()">
+          <svg class="campo__icone" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
+            <circle cx="12" cy="12" r="3" />
+            @if (mostrarSenha()) {
+              <path d="m3 3 18 18" />
+            }
+          </svg>
+        </button>
+      </div>
+      @if (campoInvalido('senha')) {
+        <small id="senha-erro" class="campo__erro">
+          {{ form.controls.senha.hasError('required') ? 'Informe uma senha.' : mensagemSenhaFraca }}
+        </small>
+      }
+    </div>
+
+    <div class="campo">
+      <label class="visualmente-oculto" for="confirmarSenha">Confirmar senha</label>
+      <div class="campo__controle" [class.campo__controle--invalido]="campoInvalido('confirmarSenha')">
+        <svg class="campo__icone" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="4" y="11" width="16" height="10" rx="2" />
+          <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+        </svg>
+        <input id="confirmarSenha" [type]="mostrarConfirmacao() ? 'text' : 'password'" formControlName="confirmarSenha"
+          placeholder="Confirmar senha" autocomplete="new-password"
+          [attr.aria-invalid]="campoInvalido('confirmarSenha')" aria-describedby="confirmarSenha-erro" />
+        <button type="button" class="campo__acao" (click)="mostrarConfirmacao.set(!mostrarConfirmacao())"
+          [attr.aria-label]="mostrarConfirmacao() ? 'Ocultar confirmação de senha' : 'Mostrar confirmação de senha'"
+          [attr.aria-pressed]="mostrarConfirmacao()">
+          <svg class="campo__icone" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
+            <circle cx="12" cy="12" r="3" />
+            @if (mostrarConfirmacao()) {
+              <path d="m3 3 18 18" />
+            }
+          </svg>
+        </button>
+      </div>
+      @if (campoInvalido('confirmarSenha')) {
+        <small id="confirmarSenha-erro" class="campo__erro">
+          {{ form.controls.confirmarSenha.hasError('required') ? 'Confirme sua senha.' : 'As senhas não conferem.' }}
+        </small>
+      }
+    </div>
+
+    <div class="campo">
+      <label class="termos">
+        <input type="checkbox" formControlName="aceitouTermos" [attr.aria-invalid]="campoInvalido('aceitouTermos')"
+          aria-describedby="termos-erro" />
+        <span>
+          Eu concordo com os <a class="link link--roxo" routerLink="/termos-de-uso">Termos de Uso</a>
+          e a <a class="link link--roxo" routerLink="/politica-de-privacidade">Política de Privacidade</a>
+        </span>
+      </label>
+      @if (campoInvalido('aceitouTermos')) {
+        <small id="termos-erro" class="campo__erro">É preciso aceitar os termos para criar a conta.</small>
+      }
+    </div>
+
+    @if (erro(); as mensagem) {
+      <p class="alerta" role="alert">{{ mensagem }}</p>
+    }
+
+    <button type="submit" class="botao" [disabled]="enviando()" [attr.aria-busy]="enviando()">
+      <svg class="botao__icone" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+        <path d="m10 17 5-5-5-5" />
+        <path d="M15 12H3" />
+      </svg>
+      {{ enviando() ? 'Criando conta...' : 'Criar conta' }}
+    </button>
+  </form>
+
+  <div class="divisor"><span>ou</span></div>
+
+  <p class="rodape rodape--linha">
+    Já tem uma conta?
+    <a class="link link--roxo" routerLink="/login">Fazer login &rarr;</a>
+  </p>
+</app-auth-layout>

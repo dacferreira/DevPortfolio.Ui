@@ -22,18 +22,20 @@
       }
     </div>
 
-    @if (solicitado()) {
-      <p class="alerta alerta--info" role="status">
-        A recuperação de senha por e-mail ainda não está disponível. Entre em contato com o administrador.
-      </p>
+    @if (confirmacao(); as mensagem) {
+      <p class="alerta alerta--info" role="status">{{ mensagem }} Confira também a caixa de spam.</p>
     }
 
-    <button type="submit" class="botao">
+    @if (erro(); as mensagem) {
+      <p class="alerta" role="alert">{{ mensagem }}</p>
+    }
+
+    <button type="submit" class="botao" [disabled]="enviando()" [attr.aria-busy]="enviando()">
       <svg class="botao__icone" viewBox="0 0 24 24" aria-hidden="true">
         <path d="m22 2-7 20-4-9-9-4Z" />
         <path d="M22 2 11 13" />
       </svg>
-      Enviar link de recuperação
+      {{ enviando() ? 'Enviando...' : 'Enviar link de recuperação' }}
     </button>
   </form>
 

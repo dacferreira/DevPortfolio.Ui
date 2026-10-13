@@ -33,3 +33,13 @@
     text-decoration: none;
   }
 }
+
+.home__sair {
+  padding: 0.6rem 1.25rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  background: var(--cor-superficie-2);
+  color: var(--cor-texto);
+  font-weight: 600;
+  cursor: pointer;
+}

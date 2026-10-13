@@ -13,5 +13,7 @@ import { AuthIlustracao } from './auth-ilustracao/auth-ilustracao';
 export class AuthLayout {
   readonly titulo = input.required<string>();
   readonly destaque = input<string>();
+  // Texto na mesma linha do destaque, antes dele, sem a cor de destaque (ex.: "comunidade ").
+  readonly antesDoDestaque = input<string>();
   readonly texto = input.required<string>();
 }
